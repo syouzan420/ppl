@@ -1,0 +1,283 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.38.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           ppl
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/ppl#readme>
+homepage:       https://github.com/githubuser/ppl#readme
+bug-reports:    https://github.com/githubuser/ppl/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2025 Author name here
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/ppl
+
+library
+  exposed-modules:
+      Activity
+      Battle
+      Battle.Activity
+      Battle.Anchor
+      Battle.ElementalEffect
+      Battle.MoveName
+      Battle.Moves
+      Battle.Moves.EyePoke
+      Battle.Moves.MeToo
+      Battle.Moves.SuckerPunch
+      Battle.Output
+      Battle.Parameters
+      Battle.Vignette
+      Controls
+      ControlsMaps
+      Ending
+      Field
+      Field.Activity
+      Field.Anchor
+      Field.Avatar
+      Field.Battles
+      Field.CardinalDirection
+      Field.Character
+      Field.Editor
+      Field.Locale
+      Field.MapName
+      Field.Menu
+      Field.Output
+      Field.Parameters
+      Field.Personae
+      Field.Personae.Donald
+      Field.Personae.Kid
+      Field.Personae.Leaner
+      Field.Personae.Man
+      Field.Personae.Mom
+      Field.Personae.Protagonist
+      Field.Personae.Woke
+      Field.PersonaName
+      Field.Scripts
+      Field.Scripts.BossRoom
+      Field.Scripts.Courtyard
+      Field.Scripts.Ditfy
+      Field.Scripts.FamilyHouse1F
+      Field.Scripts.FamilyHouse2F
+      Field.Scripts.Hometown
+      Field.Scripts.WeWoke
+      Field.Terrain
+      Field.TerrainElementExpression
+      Field.TerrainElements
+      Field.TerrainElements.Basic
+      Field.TerrainElements.Exhibit
+      Field.TerrainElements.Habitat
+      Field.TerrainElements.Portal
+      Field.Trainer
+      Intro
+      Inventory.Items.Booch
+      Inventory.Items.PPhone
+      Inventory.Menu
+      Inventory.Parameters
+      LabelName
+      Lightarrow
+      Main
+      MainAutomaton
+      Menu
+      Message
+      MusicName
+      OfflineData
+      Output
+      Output.Window
+      Ppmn.Menu
+      Ppmn.Output
+      Ppmn.Parameters
+      Ppmn.Species
+      Ppmn.Species.Blamotage
+      Ppmn.Species.Ignoloof
+      Ppmn.Species.Incub
+      Ppmn.Species.Slidek
+      Ppmn.Species.Unner
+      Ppmn.Species.You
+      ProseName
+      SoundName
+      SpriteName
+      StateClass
+      Teletype
+      TextBox
+      TextUtil
+      TileName
+      Tuner
+  other-modules:
+      Paths_ppl
+  autogen-modules:
+      Paths_ppl
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      Yampa
+    , array
+    , automaton
+    , base >=4.7 && <5
+    , containers
+    , executable-path
+    , filepath
+    , mtl
+    , random
+    , sdl2
+    , sdl2-image
+    , sdl2-mixer
+    , simple-affine-space
+    , text
+    , time
+  default-language: Haskell2010
+
+executable ppl-exe
+  main-is: Main.hs
+  other-modules:
+      Activity
+      Battle
+      Battle.Activity
+      Battle.Anchor
+      Battle.ElementalEffect
+      Battle.MoveName
+      Battle.Moves
+      Battle.Moves.EyePoke
+      Battle.Moves.MeToo
+      Battle.Moves.SuckerPunch
+      Battle.Output
+      Battle.Parameters
+      Battle.Vignette
+      Controls
+      ControlsMaps
+      Ending
+      Field
+      Field.Activity
+      Field.Anchor
+      Field.Avatar
+      Field.Battles
+      Field.CardinalDirection
+      Field.Character
+      Field.Editor
+      Field.Locale
+      Field.MapName
+      Field.Menu
+      Field.Output
+      Field.Parameters
+      Field.Personae
+      Field.Personae.Donald
+      Field.Personae.Kid
+      Field.Personae.Leaner
+      Field.Personae.Man
+      Field.Personae.Mom
+      Field.Personae.Protagonist
+      Field.Personae.Woke
+      Field.PersonaName
+      Field.Scripts
+      Field.Scripts.BossRoom
+      Field.Scripts.Courtyard
+      Field.Scripts.Ditfy
+      Field.Scripts.FamilyHouse1F
+      Field.Scripts.FamilyHouse2F
+      Field.Scripts.Hometown
+      Field.Scripts.WeWoke
+      Field.Terrain
+      Field.TerrainElementExpression
+      Field.TerrainElements
+      Field.TerrainElements.Basic
+      Field.TerrainElements.Exhibit
+      Field.TerrainElements.Habitat
+      Field.TerrainElements.Portal
+      Field.Trainer
+      Intro
+      Inventory.Items.Booch
+      Inventory.Items.PPhone
+      Inventory.Menu
+      Inventory.Parameters
+      LabelName
+      Lightarrow
+      MainAutomaton
+      Menu
+      Message
+      MusicName
+      OfflineData
+      Output
+      Output.Window
+      Ppmn.Menu
+      Ppmn.Output
+      Ppmn.Parameters
+      Ppmn.Species
+      Ppmn.Species.Blamotage
+      Ppmn.Species.Ignoloof
+      Ppmn.Species.Incub
+      Ppmn.Species.Slidek
+      Ppmn.Species.Unner
+      Ppmn.Species.You
+      ProseName
+      SoundName
+      SpriteName
+      StateClass
+      Teletype
+      TextBox
+      TextUtil
+      TileName
+      Tuner
+      Paths_ppl
+  autogen-modules:
+      Paths_ppl
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      Yampa
+    , array
+    , automaton
+    , base >=4.7 && <5
+    , containers
+    , executable-path
+    , filepath
+    , mtl
+    , ppl
+    , random
+    , sdl2
+    , sdl2-image
+    , sdl2-mixer
+    , simple-affine-space
+    , text
+    , time
+  default-language: Haskell2010
+
+test-suite ppl-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_ppl
+  autogen-modules:
+      Paths_ppl
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      Yampa
+    , array
+    , automaton
+    , base >=4.7 && <5
+    , containers
+    , executable-path
+    , filepath
+    , mtl
+    , ppl
+    , random
+    , sdl2
+    , sdl2-image
+    , sdl2-mixer
+    , simple-affine-space
+    , text
+    , time
+  default-language: Haskell2010
