@@ -1,6 +1,8 @@
 module Controls where
 
-import SDL
+--import SDL
+import SDL (MouseButton(..),Point(P),V2(..))
+import SDL.Input.Keyboard.Codes
 import Foreign.C.Types (CInt)
 
 data Controls = Controls {
@@ -66,14 +68,14 @@ readControls keyHeld mouseButtonHeld (P (V2 x y)) = Controls {
 }
   where
     a      = keyHeld ScancodeSpace || keyHeld ScancodeZ
-    b      = keyHeld ScancodeEscape || keyHeld ScancodeX
+    b      = keyHeld ScancodeX
     down   = not up && (keyHeld ScancodeDown || keyHeld ScancodeJ)
     e      = keyHeld ScancodeE
     left   = not right && (keyHeld ScancodeLeft || keyHeld ScancodeH)
     lmb    = mouseButtonHeld ButtonLeft
     mmb    = mouseButtonHeld ButtonMiddle
     mouse  = (fromIntegral x, fromIntegral y)
-    q      = keyHeld ScancodeQ
+    q      = keyHeld ScancodeQ || keyHeld ScancodeEscape 
     r      = keyHeld ScancodeR
     right  = keyHeld ScancodeRight || keyHeld ScancodeL
     rmb    = mouseButtonHeld ButtonRight

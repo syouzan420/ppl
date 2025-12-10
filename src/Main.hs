@@ -6,7 +6,9 @@ import Control.Monad (when)
 import Data.IORef (IORef,newIORef,readIORef,writeIORef)
 import Data.Time.Clock.System (getSystemTime,SystemTime(systemNanoseconds,systemSeconds))
 import FRP.Yampa (reactimate)
-import SDL hiding (copy,Stereo) 
+--import SDL hiding (copy,Stereo) 
+import SDL (Point(P),V2(..),V4(V4),EventPayload(..),BlendMode(BlendAlphaBlend),RendererType(AcceleratedVSyncRenderer),LocationMode(AbsoluteLocation),pollEvents,initializeAll,quit,getKeyboardState,windowInitialSize,rendererType,createWindow,defaultWindow,createRenderer,defaultRenderer,rendererScale,($=),rendererDrawBlendMode,setMouseLocationMode,cursorVisible,eventPayload,getMouseButtons,getAbsoluteMouseLocation,rendererDrawColor,clear,present)
+import SDL.Input.Keyboard.Codes 
 import SDL.Mixer (openAudio,Audio(audioOutput,Audio,audioFrequency,audioFormat),Format(FormatS16_Sys),Output(Stereo))
 import System.Exit (exitSuccess)
 import System.IO (hFlush,stdout)
@@ -14,7 +16,7 @@ import System.Random (getStdGen)
 import Foreign.C.Types (CInt,CFloat)
 
 import MainAutomaton (mainAutomaton)
-import Controls (controlsDefault,readControls,Controls(ctlDown,ctlUp,ctlRight,ctlLeft))
+import Controls (controlsDefault,readControls,Controls(ctlDown,ctlUp,ctlRight,ctlLeft,ctlQ))
 import OfflineData (loadOfflineData,OfflineData(odRenderer),OfflineIO)
 
 desiredAudioSpec :: Audio
@@ -43,18 +45,23 @@ main = do
     rendererDrawBlendMode renderer $= BlendAlphaBlend
     _ <- setMouseLocationMode AbsoluteLocation
     cursorVisible $= False
+
     openAudio desiredAudioSpec 1024 
+
     rgen <- getStdGen
 
     od <- loadOfflineData renderer
+
     tS <- getSystemTime
     let seconds = floatSeconds tS
     tRef <- newIORef seconds
     fpsRef <- newIORef (replicate 480 seconds)
+
     reactimate (return controlsDefault) (input tRef) (output fpsRef od) (mainAutomaton rgen od)
+
     quit
 
-commands :: [(Float,Maybe Controls)]
+commands :: [(Double,Maybe Controls)]
 commands =
   [ (2.0, Just (controlsDefault { ctlUp = True })),
     (2.0, Just (controlsDefault { ctlRight = True })),
@@ -64,7 +71,6 @@ commands =
 input :: IORef Double -> Bool -> IO (Double,Maybe Controls)
 input tRef _ = do
     es <- pollEvents
-    when (any (isQuit . eventPayload) es) exitSuccess
     keyHeld <- getKeyboardState
     buttonHeld <- getMouseButtons
     mouse <- getAbsoluteMouseLocation
@@ -79,8 +85,9 @@ input tRef _ = do
             | keyHeld Scancode1 = 0.25 * dt
             | keyHeld Scancode2 = 4 * dt
             | otherwise         = dt
+    when (any (isQuit . eventPayload) es || ctlQ controls) exitSuccess
     writeIORef tRef seconds'
-    return (realToFrac dt, Just controls)
+    return (realToFrac dt', Just controls)
 
 isQuit :: EventPayload -> Bool
 isQuit QuitEvent              = True
@@ -93,14 +100,15 @@ output fpsRef od _ action = do
     clear renderer
     _ <- action od
     present renderer
-    tS <- getSystemTime
+{-    tS <- getSystemTime
     samples <- readIORef fpsRef
     let samples' = floatSeconds tS : init samples
         diffs = fst $ foldr (\s (difs, prev) -> ((s - prev) : difs, s)) ([], last samples) samples'
         mean = sum diffs / fromIntegral (length diffs)
---    putStr $ "\r" ++ show (1 / mean)
---    hFlush stdout
+    putStr $ "\r" ++ show (1 / mean)
+    hFlush stdout
     writeIORef fpsRef samples'
+-}
     return False 
   where
     renderer = odRenderer od
