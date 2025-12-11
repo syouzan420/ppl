@@ -57,7 +57,10 @@ main = do
     tRef <- newIORef seconds
     fpsRef <- newIORef (replicate 480 seconds)
 
-    reactimate (return controlsDefault) (input tRef) (output fpsRef od) (mainAutomaton rgen od)
+    reactimate (return controlsDefault) 
+               (input tRef)
+               (output fpsRef od)
+               (mainAutomaton rgen od)
 
     quit
 

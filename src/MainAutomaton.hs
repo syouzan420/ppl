@@ -3,7 +3,7 @@
 module MainAutomaton where
 
 import Data.Text.Internal (Text)
-import Data.Functor.Identity
+import Data.Functor.Identity (Identity)
 import Control.Monad.Cont (runCont,ContT)
 import Control.Monad.RWS (RWST(runRWST))
 import qualified Data.Map as M
@@ -13,7 +13,7 @@ import Data.Point2 (Point2(Point2))
 import System.Random (RandomGen(split),StdGen)
 
 import Controls (Controls)
-import Field
+import Field (Character(cRandomGenerator),Terrain,FieldParameters(..),MapName(FamilyHouse2F),protagonist,scriptByMap,anchor,explore)
 import Intro (intro)
 import Lightarrow (keep,Embedding(Embedding),KeepSF)
 import OfflineData (OfflineData(odGetTerrain),OfflineIO)
@@ -32,7 +32,7 @@ field rgen od name = runRWST k (Embedding id) fp
   where
     k = --callCC (selecting 0)
         --personDetails ignoloofBase
-        Field.anchor explore
+        anchor explore
         --wildBattle (atLevel 3 ignoloofLearnMove ignoloofBase)
         --trainerBattle TheDonald Donald TheGreatestWitchHuntIn [ppmnByName LabelName.Blamotage 1, ppmnByName LabelName.Unner 1]
         --finalBattle
