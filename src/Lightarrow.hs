@@ -74,13 +74,13 @@ eventToList = event [] (replicate 1)
 eventOutput :: SF (b, Event c) ((b, Event c), Event c)
 eventOutput = arr $ \(x, e) -> ((x, e), e)
 
---eventFinal :: b -> c -> SF a (b, Event c)
+eventFinal :: b -> c -> SF a (b, Event c)
 eventFinal b c = constant (b, Event c)
 
-swont :: SF a1 (b, Event a2) -> Cont (SF a1 b) a2
+swont :: SF a1 (b, Event a2) -> Swont a1 b a2
 swont = cont . switch
 
-dSwont :: SF a1 (b, Event a2) -> Cont (SF a1 b) a2
+dSwont :: SF a1 (b, Event a2) -> Swont a1 b a2
 dSwont = cont . dSwitch
 
 timedInterp :: Time -> Time -> Time -> SF a Time

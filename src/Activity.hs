@@ -12,7 +12,7 @@ import Data.Point2 (Point2(Point2))
 import Data.Vector2 (vector2)
 
 import ControlsMaps (proseControl)
-import Lightarrow (dSwont,swont,timedInterp,timedSequence,Embedding(Embedding))
+import Lightarrow (dSwont,swont,timedInterp,timedSequence,Swont,Embedding(Embedding))
 import Message (Message(ProseScroll))
 import Output (drawRectangle,drawSpriteExplicit,playSoloSound,soundTrigger,Color(White,Translucent),DrawOrientation(Original))
 import Ppmn.Parameters (Ppmn(ppmnHitPoints,ppmnMaxHitPoints,ppmnCry),PpmnAction(actionUpdateObject,actionObject))
@@ -178,18 +178,18 @@ playCry p = momentary (playSoloSound (ppmnCry p))
 
 momentary :: (MonadTrans t,
               MonadReader
-                (Embedding a b2 a1 b1) (t (Cont (SF a1 b1)))
+                (Embedding a OfflineIO a1 b1) (t (Swont a1 b1))
              ) =>
-             b2 -> t (Cont (SF a1 b1)) ()
+             OfflineIO -> t (Swont a1 b1) ()
 momentary output = do
     Embedding embed <- ask
     lift . dSwont $ embed $ constant output &&& now ()
 
 over :: (MonadTrans t,
          MonadReader
-           (Embedding a b2 a1 b1) (t (Cont (SF a1 b1)))
+           (Embedding a OfflineIO a1 b1) (t (Cont (SF a1 b1)))
         ) =>
-        Time -> SF a b2 -> t (Cont (SF a1 b1)) ()
+        Time -> SF a OfflineIO -> t (Swont a1 b1) ()
 over interval sf = do
     Embedding embed <- ask
     lift . swont $ embed $ sf &&& (after interval () >>> iPre NoEvent)

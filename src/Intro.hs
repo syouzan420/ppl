@@ -50,7 +50,7 @@ intro od = (\(x, _, ()) -> x) <$> runRWST k (Embedding id) od
 titleDrop :: RWST (Embedding Controls OfflineIO Controls OfflineIO)
                   ()
                   OfflineData
-                  (Cont (SF Controls OfflineIO))
+                  (Swont Controls OfflineIO)
                   ()
 titleDrop = do  momentary $ playSound Drop
                 over 1.0 $ time >>> arr drp >>> arr draw
