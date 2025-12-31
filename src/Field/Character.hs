@@ -3,27 +3,27 @@
 module Field.Character where
 
 import Control.Applicative ((<|>))
-import Control.Monad.Trans
-import Control.Monad.State
-import Control.Monad.Cont
+--import Control.Monad.Trans (MonadTrans(lift))
+import Control.Monad.State (MonadState(put,state,get),modify,MonadTrans(lift),StateT(runStateT))
+import Control.Monad.Cont (Cont,cont,runCont)
 import Control.Monad (unless)
-import Data.Bool
+import Data.Bool (bool)
 import qualified Data.Text as T
-import FRP.Yampa hiding (left, right)
-import Data.Point2
-import Data.Vector2
-import System.Random
+import FRP.Yampa (RandomGen(genRange,next,split),Random(randomR),SF,Event(..),Time,constant,attach,lMerge,tag,first,now,after,notYet,edgeTag,hold,arr,returnA,(&&&),(***),(>>>),(*^))
+import Data.Point2 (Point2)
+import Data.Vector2 (Vector2,vector2)
+import System.Random (StdGen) 
 
-import Activity
-import Controls
-import Field.CardinalDirection
-import Field.Parameters
-import {-# SOURCE #-} Field.Personae
-import Field.PersonaName
-import Field.Terrain
-import Lightarrow
-import Message
-import OfflineData
+import Activity (stdLecture,stdWait)
+import Controls (Controls)
+import Field.CardinalDirection (oppositeDirection,CardinalDirection(..))
+import Field.Parameters (FieldParameters)
+import {-# SOURCE #-} Field.Personae (personaByName)
+import Field.PersonaName (PersonaName)
+import Field.Terrain (empty,Terrain,TerrainElement(teInspect,teCollides),adjustElem,getElem,occupy)
+import Lightarrow (dSwont,keep,switchE,swont,timedInterp,FlatEmbeddedActivity,KeepSF(KeepSF))
+import Message (Message(CharacterTurn,Done,FieldAction,CharacterStop,CharacterSpeech,CharacterMove))
+import OfflineData (OfflineIO)
 
 data Character = Character {
     cAnimation :: KeepSF () (Point2 Double -> Vector2 Double -> OfflineIO),
@@ -43,7 +43,7 @@ instance Show Character where
     show c = show (cName c, let (x, y) = cPosition c in (round x, round y))
 
 instance Read Character where
-    readsPrec = (map (first (\(n, x) -> personaByName n x)) .) . readsPrec
+    readsPrec = (map (first (uncurry personaByName)) .) . readsPrec
 
 instance RandomGen Character where
     next c    = let (k, g) = next (cRandomGenerator c) in
